@@ -31,10 +31,14 @@
         <LineBreak/>
           If an adapter was selected in the previous step, connect will also
         attempt to limit traffic to the selected adapter.
+        <LineBreak/>
+        Titanic machine IP: 128.93.90.11
+        <LineBreak/>
+        Available ports: 9098, 9099, 9101
       </TextBlock>
       <TextBlock TextWrapping="Wrap" Style="{StaticResource BasicTextStyle}">Host name:</TextBlock>
       <!-- To connect to a remote host, set IsEnabled="true" below -->
-      <TextBox x:Name="HostNameForConnect" IsEnabled="False" Text="localhost"/>
+      <TextBox x:Name="HostNameForConnect" IsEnabled="true" Text="localhost"/>
       <TextBlock TextWrapping="Wrap" Style="{StaticResource BasicTextStyle}">Service name:</TextBlock>
       <TextBox x:Name="ServiceNameForConnect" Text="22112"/>
       <Button x:Name="ConnectSocket" Content="Connect" Click="ConnectSocket_Click"/>

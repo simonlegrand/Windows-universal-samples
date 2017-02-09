@@ -16,6 +16,13 @@
 
 #include "pch.h"
 #include "Scenario3.xaml.h"
+#include <opencv2/core.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/highgui.hpp>
+#include <iostream>
+#include <string>
+#include <locale>
+#include <codecvt>
 
 using namespace SDKTemplate::StreamSocketSample;
 
@@ -46,6 +53,21 @@ void Scenario3::OnNavigatedTo(NavigationEventArgs^ e)
     rootPage = MainPage::Current;
 }
 
+Platform::String^ stringToPlatformString(std::string inputString)
+{
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+	std::wstring intermediateForm = converter.from_bytes(inputString);
+	Platform::String^ retVal = ref new Platform::String(intermediateForm.c_str());
+
+	return retVal;
+}
+
+void LogMessage(Object^ parameter)
+{
+	auto paraString = parameter->ToString();
+	auto formattedText = std::wstring(paraString->Data()).append(L"\r\n");
+	OutputDebugString(formattedText.c_str());
+}
 
 void Scenario3::SendHello_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
@@ -71,9 +93,23 @@ void Scenario3::SendHello_Click(Platform::Object^ sender, Windows::UI::Xaml::Rou
 
     // Write first the length of the string a UINT32 value followed up by the string. The operation will just store 
     // the data locally.
-    String^ stringToSend("Hello");
+	//cv::Mat image = cv::imread(".\Images\lemmy1.jpg");
+	cv::Mat E = cv::Mat::eye(4, 4, CV_64F);
+	//std::string s = std::to_string(E.data);
+	//String^ S = stringToPlatformString(s);
+
+	LogMessage("coucou");
+	//cv::imshow("Display window", image);
+
+    String^ stringToSend("Ca marche!");
     writer->WriteUInt32(writer->MeasureString(stringToSend));
     writer->WriteString(stringToSend);
+
+	// **************************************
+	// Here we can try to create get a frame object from the camera and send it to the server.
+	// See how interface this code and HoloFaceTracking.
+	// **************************************
+
 
     // Write the locally buffered data to the network.
     create_task(writer->StoreAsync()).then([this, socket, stringToSend] (task<unsigned int> writeTask)

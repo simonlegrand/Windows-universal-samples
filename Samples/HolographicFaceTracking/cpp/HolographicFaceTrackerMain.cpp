@@ -286,6 +286,10 @@ HolographicFrame^ HolographicFaceTrackerMain::Update()
 
         if (m_trackingFaces)
         {
+			// *******************************
+			// Seems the right object to transmit to the server
+			// *******************************
+
             if (MediaFrameReference^ frame = m_videoFrameProcessor->GetLatestFrame())
             {
                 ProcessFaces(m_faceTrackerProcessor->GetLatestFaces(), frame, currentCoordinateSystem);
