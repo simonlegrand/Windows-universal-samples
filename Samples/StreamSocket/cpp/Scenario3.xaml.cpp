@@ -19,6 +19,7 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
 #include <iostream>
 #include <string>
 #include <locale>
@@ -64,6 +65,7 @@ Platform::String^ stringToPlatformString(std::string inputString)
 
 void LogMessage(Object^ parameter)
 {
+	// Function used to print informations in the output
 	auto paraString = parameter->ToString();
 	auto formattedText = std::wstring(paraString->Data()).append(L"\r\n");
 	OutputDebugString(formattedText.c_str());
@@ -90,39 +92,74 @@ void Scenario3::SendHello_Click(Platform::Object^ sender, Windows::UI::Xaml::Rou
     {
         writer = dynamic_cast<DataWriter^>(CoreApplication::Properties->Lookup("clientDataWriter"));
     }
-
+	writer->UnicodeEncoding = UnicodeEncoding::Utf8;
+	//writer->ByteOrder = ByteOrder::BigEndian;
     // Write first the length of the string a UINT32 value followed up by the string. The operation will just store 
     // the data locally.
-	//cv::Mat image = cv::imread(".\Images\lemmy1.jpg");
-	cv::Mat E = cv::Mat::eye(4, 4, CV_64F);
-	//std::string s = std::to_string(E.data);
-	//String^ S = stringToPlatformString(s);
+	//cv::Mat image = cv::imread('l-samples\Samples\StreamSocket\cpp\Images', CV_LOAD_IMAGE_GRAYSCALE);
+	//cv::Mat E;
+	//cv::cvtColor(image, E, CV_16UC1);
+	String^ test("pouet");
+	LogMessage(test);
+	//cv::Mat E = cv::Mat::eye(20, 20, CV_8UC1);
+	cv::Mat E = (cv::Mat_<int>(3, 3) << 1, 0, 4, 0, 1, 0, 0, 0, 1);
+	uint8_t *myData = E.data;
+	uint width = E.cols;
+	uint height = E.rows;
+	std::stringstream ss;
 
-	LogMessage("coucou");
-	//cv::imshow("Display window", image);
+	//Tranform each element of Mat object into array of string objects
+	ss << height << 'x' << width;
+	ss << '-'; //Separation character between matrix size and data.
 
+	for (uint i = 0; i < height; i++)
+	{
+		for (uint j = 0; j < width; j++)
+		{
+			ss << (int)myData[i * width + j] << ",";
+		}
+	}
+	std::string str = ss.str();
+	String^ Str = stringToPlatformString(str);
+	//String^ Str_bis(str.c_str);
+	
+	
+	unsigned int inputElementSize = writer->MeasureString(Str);
+	writer->WriteString(Str);
+	LogMessage(Str);
+	LogMessage(Str->Length());
+	
     String^ stringToSend("Ca marche!");
-    writer->WriteUInt32(writer->MeasureString(stringToSend));
-    writer->WriteString(stringToSend);
 
+	std::stringstream ssr;
+	ssr << writer->UnstoredBufferLength;
+	std::string reste = ssr.str();
+	LogMessage(stringToPlatformString(reste));
 	// **************************************
 	// Here we can try to create get a frame object from the camera and send it to the server.
 	// See how interface this code and HoloFaceTracking.
 	// **************************************
 
-
     // Write the locally buffered data to the network.
-    create_task(writer->StoreAsync()).then([this, socket, stringToSend] (task<unsigned int> writeTask)
-    {
-        try
-        {
-            // Try getting an exception.
-            writeTask.get();
-            SendOutput->Text = "\"" + stringToSend + "\" sent successfully";
-        }
-        catch (Exception^ exception)
-        {
-            rootPage->NotifyUser("Send failed with error: " + exception->Message, NotifyType::ErrorMessage);
-        }
-    });
+	DataWriterStoreOperation^ ope = writer->StoreAsync();
+	AsyncStatus status = ope->Status;
+	LogMessage(status);
+    //create_task(writer->StoreAsync()).then([this, socket, stringToSend] (task<unsigned int> writeTask)
+    //{
+    //    try
+    //    {
+    //        // Try getting an exception.
+    //        writeTask.get();
+    //        SendOutput->Text = "\"" + stringToSend + "\" sent successfully";
+    //    }
+    //    catch (Exception^ exception)
+    //    {
+    //        rootPage->NotifyUser("Send failed with error: " + exception->Message, NotifyType::ErrorMessage);
+    //    }
+    //});
+
+	/*std::stringstream ssr;
+	ssr << writer->UnstoredBufferLength;
+	std::string reste = ssr.str();
+	LogMessage(stringToPlatformString(reste));*/
 }
