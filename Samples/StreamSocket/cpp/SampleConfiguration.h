@@ -41,5 +41,6 @@ namespace SDKTemplate
         }
     private:
         static Platform::Array<Scenario>^ scenariosInner;
-    };
+		void HandleIoException(Platform::COMException ^ e, Platform::String ^ description);
+	};
 }

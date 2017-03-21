@@ -27,7 +27,27 @@ namespace SDKTemplate
         /// <summary>
         /// An empty page that can be used on its own or navigated to within a Frame.
         /// </summary>
-        [Windows::Foundation::Metadata::WebHostHidden]
+        
+
+		class Image_data
+		{
+		private:
+			int nCol = 0;
+			int nRow = 0;
+			unsigned int size = 0; //Size of pixels array in bytes
+			uint8* pixels = nullptr;
+
+		public:
+			Image_data();
+			Image_data(Windows::UI::Xaml::Media::Imaging::WriteableBitmap^);
+			~Image_data();
+			uint8* getPixelsPointer();
+			int getSize();
+			int getnCol();
+			int getnRow();
+		};
+
+		[Windows::Foundation::Metadata::WebHostHidden]
         public ref class Scenario3 sealed
         {
         public:
@@ -37,7 +57,15 @@ namespace SDKTemplate
             virtual void OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) override;
         private:
             MainPage^ rootPage;
-            void SendHello_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+			Windows::Storage::StorageFile^ pickedFile;
+			Windows::UI::Xaml::Media::Imaging::WriteableBitmap^ WBimage;
+			Image_data imData;
+
+			void file_from_picker(Platform::Object ^ sender, Windows::UI::Xaml::RoutedEventArgs ^ e);
+			byte* getDataAndHeader(::Windows::Storage::Streams::IBuffer ^ buf);
+			void intToBytes(int value, byte* b);
+			void SendImage_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+			void SendHello_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         };
     }
 }

@@ -24,4 +24,17 @@ Platform::Array<Scenario>^ MainPage::scenariosInner = ref new Platform::Array<Sc
     { "Send Data", "SDKTemplate.StreamSocketSample.Scenario3" },
     { "Close Socket", "SDKTemplate.StreamSocketSample.Scenario4" },
     { "SSL/TLS Server Certificates", "SDKTemplate.StreamSocketSample.Scenario5" }
-}; 
+};
+
+// I/O errors are reported as exceptions.
+void MainPage::HandleIoException(Platform::COMException^ e, Platform::String^ description)
+{
+	if (e->HResult == HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND))
+	{
+		NotifyUser("The file does not exist. Use scenario one to create this file.", NotifyType::ErrorMessage);
+	}
+	else
+	{
+		NotifyUser(description + ": " + e->Message, NotifyType::ErrorMessage);
+	}
+}
