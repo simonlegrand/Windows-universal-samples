@@ -236,7 +236,6 @@
     <Image Include="..\..\..\SharedContent\media\windows-sdk.png">
       <Link>Assets\windows-sdk.png</Link>
     </Image>
-    <Image Include="lemmy.bmp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
