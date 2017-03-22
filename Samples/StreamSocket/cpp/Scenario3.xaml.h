@@ -35,7 +35,8 @@ namespace SDKTemplate
 			int nCol = 0;
 			int nRow = 0;
 			unsigned int size = 0; //Size of pixels array in bytes
-			uint8* pixels = nullptr;
+			Windows::UI::Xaml::Media::Imaging::WriteableBitmap^ wbmp;
+			byte* pixels = nullptr;
 
 		public:
 			Image_data();
@@ -62,10 +63,7 @@ namespace SDKTemplate
 			Image_data imData;
 
 			void file_from_picker(Platform::Object ^ sender, Windows::UI::Xaml::RoutedEventArgs ^ e);
-			byte* getDataAndHeader(::Windows::Storage::Streams::IBuffer ^ buf);
-			void intToBytes(int value, byte* b);
 			void SendImage_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-			void SendHello_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         };
     }
 }
