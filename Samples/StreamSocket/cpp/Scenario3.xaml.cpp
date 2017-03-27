@@ -18,11 +18,8 @@
 #include "Robuffer.h"
 #include "wrl.h"
 #include "Scenario3.xaml.h"
-#include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <locale>
 #include <codecvt>
@@ -128,6 +125,7 @@ void LogMessage(Object^ parameter)
 	OutputDebugString(formattedText.c_str());
 }
 
+
 void Scenario3::file_from_picker(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
 {
 
@@ -209,4 +207,38 @@ void Scenario3::SendImage_Click(Platform::Object^ sender, Windows::UI::Xaml::Rou
 			rootPage->NotifyUser("Send failed with error: " + exception->Message, NotifyType::ErrorMessage);
 		}
 	});
+}
+
+void Scenario3::Load_image_Click(Platform::Object ^ sender, Windows::UI::Xaml::RoutedEventArgs ^ e)
+{
+
+	// Create a Uri object from the URI string
+	Windows::Foundation::Uri^ uri = ref new Windows::Foundation::Uri("ms-appx:///Images/lena_color100.bmp");
+	
+	auto getfileTask = Concurrency::create_task(StorageFile::GetFileFromApplicationUriAsync(uri)); // User choose an image file
+	getfileTask.then([this](StorageFile^ f)
+	{
+		this->pickedFile = f;
+		return f->Properties->GetImagePropertiesAsync(); // Creation of a stream from the opened file
+
+	}).then([this](FileProperties::ImageProperties^ prop)
+	{
+		int h = prop->Height;
+		int w = prop->Width;
+		this->WBimage = ref new WriteableBitmap(w, h); // (Columns, Rows)
+		return this->pickedFile->OpenAsync(FileAccessMode(0)); // Sourcing of the WriteableBitmap object with the stream
+															   // Initialiser un objet Image_data
+	}) .then([this](IRandomAccessStream^ stream)
+	{
+		this->WBimage->SetSource(stream);
+	}).then([this](void)
+	{
+		imData = Image_data(this->WBimage);
+		std::stringstream st;
+		st << imData.getnRow() << 'x' << imData.getnCol();
+		std::string str = st.str();
+		String^ St = stringToPlatformString(str);
+		rootPage->NotifyUser("File open." + " Dimensions are " + St, NotifyType::StatusMessage);
+	});
+
 }

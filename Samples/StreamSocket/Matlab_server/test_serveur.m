@@ -15,7 +15,7 @@ while(true)
     mat(:,:,1) = reshape(data(3, 3:end),sz)';
     mat(:,:,2) = reshape(data(2, 3:end),sz)';
     mat(:,:,3) = reshape(data(1, 3:end),sz)';
-    figure, imshow(mat,[])
+    figure, imshow(mat,[]);
 end
 
 end

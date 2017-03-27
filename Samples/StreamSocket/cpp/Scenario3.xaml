@@ -16,7 +16,8 @@
         Now you can send data to the 'server'. Data is often sent using
       a DataWriter instance, which writes to the socket's output stream.
         </TextBlock>
-        <Button x:Name="open_file" Content="test file" Click="file_from_picker"/>
+        <Button x:Name="open_file" Content="Choose File" Click="file_from_picker"/>
+        <Button x:Name="LoadImage" Content="Load Image(Hololens)" Click="Load_image_Click"/>
         <Button x:Name="SendImage" Content="Send image" Click="SendImage_Click"/>
         <TextBlock x:Name="SendOutput" TextWrapping="Wrap" Style="{StaticResource BasicTextStyle}"/>
         <!-- Add Storyboards to the visual states below as necessary for supporting the various layouts -->

@@ -47,13 +47,15 @@
     <Image Include="..\..\..\SharedContent\media\windows-sdk.png">
       <Filter>Assets</Filter>
     </Image>
+    <Image Include="Images\lena_color100.bmp">
+      <Filter>Assets</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="..\..\..\SharedContent\cpp\MainPage.xaml" />
-    <Page Include="Scenario1.xaml" />
     <Page Include="Scenario2.xaml" />
     <Page Include="Scenario3.xaml" />
     <Page Include="Scenario4.xaml" />
@@ -61,6 +63,7 @@
     <Page Include="..\..\..\SharedContent\xaml\Styles.xaml">
       <Filter>Styles</Filter>
     </Page>
+    <Page Include="Scenario1.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Assets">
@@ -69,8 +72,5 @@
     <Filter Include="Styles">
       <UniqueIdentifier>{c94ee49f-5645-473b-bd60-ebc58bab2ede}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

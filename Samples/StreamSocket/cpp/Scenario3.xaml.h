@@ -58,12 +58,14 @@ namespace SDKTemplate
             virtual void OnNavigatedTo(Windows::UI::Xaml::Navigation::NavigationEventArgs^ e) override;
         private:
             MainPage^ rootPage;
+			Windows::UI::Xaml::Media::Imaging::BitmapImage^ BmpIm;
 			Windows::Storage::StorageFile^ pickedFile;
 			Windows::UI::Xaml::Media::Imaging::WriteableBitmap^ WBimage;
 			Image_data imData;
 
 			void file_from_picker(Platform::Object ^ sender, Windows::UI::Xaml::RoutedEventArgs ^ e);
 			void SendImage_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+			void Load_image_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
         };
     }
 }
