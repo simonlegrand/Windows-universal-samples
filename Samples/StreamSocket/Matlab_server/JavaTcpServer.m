@@ -3,6 +3,8 @@ global GlobalserverSocket;
 import java.net.Socket
 import java.io.*
 import java.net.ServerSocket
+% Pour les infos sur l'interfacage Java/Matlab:
+% https://www.mathworks.com/help/pdf_doc/matlab/apiext.pdf
 timeout=1000;
 if(nargin<3), data=[]; end
 
@@ -46,6 +48,7 @@ switch(action)
         %res = [];
         h=0; w=0;
         data=[]; tBytes=0; flag=0;
+        datareader = BufferReaderClass;
         while(true)            
             % Number of Int availables from this stream
             % = Number of bytes / 4
@@ -59,13 +62,17 @@ switch(action)
                     nBytes = nBytes - 8;
                     flag = 1;
                 end
-                partdata = zeros(round(nBytes*0.25),4, 'uint8');
+                 partdata = zeros(round(nBytes*0.25),4, 'uint8');
                 for i = 1:nBytes*0.25
                     partdata(i,1) = DataInputStream(TCP.inputStream).readUnsignedByte; 
                     partdata(i,2) = DataInputStream(TCP.inputStream).readUnsignedByte;
                     partdata(i,3) = DataInputStream(TCP.inputStream).readUnsignedByte;
                     partdata(i,4) = DataInputStream(TCP.inputStream).readUnsignedByte;
                 end
+              
+                %javaPartData = javaArray('java.lang.Byte',round(nBytes*0.25));
+                %DataInputStream(TCP.inputStream).read(javaPartData);
+                %javaPartData = javaMethod('main', datareader,DataInputStream(TCP.inputStream),javaPartData);
                 %data(tBytes+1:tBytes+nBytes,:) = partdata;
                 data = [data; partdata];
                 tBytes=tBytes+nBytes;

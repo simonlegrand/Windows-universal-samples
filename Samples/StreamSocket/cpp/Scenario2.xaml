@@ -40,7 +40,7 @@
       <!-- To connect to a remote host, set IsEnabled="true" below -->
       <TextBox x:Name="HostNameForConnect" IsEnabled="true" Text="localhost"/>
       <TextBlock TextWrapping="Wrap" Style="{StaticResource BasicTextStyle}">Service name:</TextBlock>
-      <TextBox x:Name="ServiceNameForConnect" Text="22112"/>
+      <TextBox x:Name="ServiceNameForConnect" Text="5151"/>
       <Button x:Name="ConnectSocket" Content="Connect" Click="ConnectSocket_Click"/>
       <!-- Add Storyboards to the visual states below as necessary for supporting the various layouts -->
       <VisualStateManager.VisualStateGroups>
