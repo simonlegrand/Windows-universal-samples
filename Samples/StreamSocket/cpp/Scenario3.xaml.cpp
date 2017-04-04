@@ -139,10 +139,8 @@ void Scenario3::file_from_picker(Platform::Object^ sender, Windows::UI::Xaml::Ro
 	/* See FileAcces Samples for more information */
 	auto pickingTask = Concurrency::create_task(picker->PickSingleFileAsync()); // User choose an image file
 	pickingTask.then([this](StorageFile^ chosenfile)
-    {		
-		this->pickedFile = chosenfile;
-	}).then([this](void)
 	{
+		this->pickedFile = chosenfile;
 		return this->pickedFile->Properties->GetImagePropertiesAsync(); // Creation of a stream from the opened file
 		
 	}).then([this](FileProperties::ImageProperties^ prop)
@@ -213,6 +211,7 @@ void Scenario3::Load_image_Click(Platform::Object ^ sender, Windows::UI::Xaml::R
 {
 
 	// Create a Uri object from the URI string
+	// ms-appx:/// est la racine du projet
 	Windows::Foundation::Uri^ uri = ref new Windows::Foundation::Uri("ms-appx:///Images/lena_color100.bmp");
 	
 	auto getfileTask = Concurrency::create_task(StorageFile::GetFileFromApplicationUriAsync(uri)); // User choose an image file
